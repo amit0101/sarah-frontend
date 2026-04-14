@@ -13,10 +13,4 @@ export default defineConfig({
   build: {
     outDir: "dist",
   },
-  define: {
-    // Make VITE_SARAH_API_URL available; falls back to "" (relative) if not set
-    "import.meta.env.VITE_SARAH_API_URL": JSON.stringify(
-      process.env.VITE_SARAH_API_URL || ""
-    ),
-  },
 });
