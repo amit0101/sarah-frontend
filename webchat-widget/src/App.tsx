@@ -1,4 +1,4 @@
-import '../styles/widget.css';
+import './styles/widget.css';
 import { ChatWidget } from './components/ChatWidget';
 
 const ORG_SLUG = import.meta.env.VITE_ORG_SLUG || 'mhc';
