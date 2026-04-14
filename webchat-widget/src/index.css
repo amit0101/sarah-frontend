@@ -1,0 +1,4 @@
+/* Base reset — dev mode only. Widget styles are in styles/widget.css */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
