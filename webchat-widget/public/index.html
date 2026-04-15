@@ -3,57 +3,149 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sarah Webchat — Demo</title>
+    <title>Sarah Webchat — Live Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./sarah-webchat.css" />
     <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
       body {
-        margin: 0;
+        font-family: 'Inter', -apple-system, sans-serif;
         min-height: 100vh;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        background: linear-gradient(135deg, #0f0c29 0%, #1a1a4e 50%, #24243e 100%);
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        padding: 24px;
         color: #e0e0e0;
       }
-      .card {
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
-        padding: 48px;
-        max-width: 480px;
+
+      .hero {
         text-align: center;
-        backdrop-filter: blur(12px);
+        margin-bottom: 48px;
       }
-      h1 { margin: 0 0 12px; font-size: 28px; font-weight: 700; color: #fff; }
-      p  { margin: 0 0 32px; color: #aaa; line-height: 1.6; }
-      code {
-        display: block;
-        background: rgba(0,0,0,0.4);
-        border-radius: 8px;
-        padding: 16px;
-        font-size: 13px;
-        color: #7dd3fc;
+      .hero-badge {
+        display: inline-block;
+        background: rgba(99,179,237,0.15);
+        border: 1px solid rgba(99,179,237,0.3);
+        color: #63b3ed;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 5vw, 48px);
+        font-weight: 600;
+        color: #fff;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .hero h1 span {
+        background: linear-gradient(90deg, #63b3ed, #9f7aea);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero p {
+        font-size: 16px;
+        color: #a0aec0;
+        max-width: 480px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* Widget container */
+      #sarah-webchat {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,0.07),
+          0 32px 80px rgba(0,0,0,0.5),
+          0 0 60px rgba(99,179,237,0.08);
+      }
+
+      /* Embed snippet */
+      .embed-section {
+        margin-top: 40px;
+        width: 100%;
+        max-width: 560px;
         text-align: left;
-        word-break: break-all;
       }
-      .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 8px; }
+      .embed-section .label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #718096;
+        margin-bottom: 10px;
+      }
+      .embed-section code {
+        display: block;
+        background: rgba(0,0,0,0.45);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        padding: 16px 18px;
+        font-size: 12.5px;
+        color: #7dd3fc;
+        line-height: 1.7;
+        word-break: break-all;
+        white-space: pre-wrap;
+      }
+      .copy-btn {
+        margin-top: 10px;
+        background: rgba(99,179,237,0.12);
+        border: 1px solid rgba(99,179,237,0.25);
+        color: #63b3ed;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 7px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .copy-btn:hover { background: rgba(99,179,237,0.22); }
+      .copy-btn.copied { color: #68d391; border-color: rgba(104,211,145,0.3); }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h1>Sarah Webchat</h1>
-      <p>The chat widget is running. Use the button in the bottom-right corner to start a conversation.</p>
-      <div class="label">Embed on any site with:</div>
-      <code id="embed-snippet">Loading...</code>
+    <div class="hero">
+      <div class="hero-badge">Live Demo</div>
+      <h1>Meet <span>Sarah</span></h1>
+      <p>AI-powered intake assistant for McInnis &amp; Holloway. Start a conversation below.</p>
     </div>
 
-    <!-- Load the widget from this same deployment -->
+    <!-- The widget mounts here automatically -->
+    <div id="sarah-webchat"></div>
+
+    <div class="embed-section">
+      <div class="label">Embed on any page with</div>
+      <code id="snippet"></code>
+      <button class="copy-btn" id="copy-btn" onclick="copySnippet()">Copy embed code</button>
+    </div>
+
     <script>
       const base = window.location.origin;
-      document.getElementById('embed-snippet').textContent =
-        `<link rel="stylesheet" href="${base}/sarah-webchat.css">\n<script src="${base}/sarah-webchat.iife.js"><\/script>`;
+      const snippet = `<link rel="stylesheet" href="${base}/sarah-webchat.css">\n<script src="${base}/sarah-webchat.iife.js"><\/script>\n<div id="sarah-webchat"></div>`;
+      document.getElementById('snippet').textContent = snippet;
+      function copySnippet() {
+        navigator.clipboard.writeText(snippet).then(() => {
+          const btn = document.getElementById('copy-btn');
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = 'Copy embed code'; btn.classList.remove('copied'); }, 2000);
+        });
+      }
     </script>
-    <link rel="stylesheet" href="./sarah-webchat.css" />
     <script src="./sarah-webchat.iife.js"></script>
   </body>
 </html>
