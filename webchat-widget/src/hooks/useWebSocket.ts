@@ -52,17 +52,18 @@ export function useWebSocket({
     [onStatusChange],
   );
 
-  const buildUrl = useCallback(() => {
+  const buildUrl = useCallback((locOverride?: string | null) => {
     const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = apiUrl ? new URL(apiUrl).host : `${window.location.hostname}:8000`;
-    if (!locationSlug) return `${proto}//${host}/ws/chat/${orgSlug}`;
-    return `${proto}//${host}/ws/chat/${orgSlug}/${locationSlug}`;
+    const loc = locOverride ?? locationSlug;
+    if (!loc) return `${proto}//${host}/ws/chat/${orgSlug}`;
+    return `${proto}//${host}/ws/chat/${orgSlug}/${loc}`;
   }, [orgSlug, locationSlug, apiUrl]);
 
-  const connect = useCallback(() => {
+  const connect = useCallback((locOverride?: string | null) => {
     wsRef.current?.close();
     updateStatus('connecting');
-    const ws = new WebSocket(buildUrl());
+    const ws = new WebSocket(buildUrl(locOverride));
     wsRef.current = ws;
 
     ws.onopen = () => {

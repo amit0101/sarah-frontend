@@ -90,11 +90,9 @@ export function useChat({ orgSlug, apiUrl }: UseChatOptions) {
       setLocationSlug(loc);
       setMessages([]);
       setTyping(false);
-      // Clear saved session for fresh start
       try { sessionStorage.removeItem(SESSION_KEY); } catch { /* noop */ }
       setConversationId(null);
-      // Need to reconnect with new location — use setTimeout to let state flush
-      setTimeout(() => ws.connect(), 0);
+      setTimeout(() => ws.connect(loc), 0);
     },
     [ws],
   );
@@ -102,7 +100,7 @@ export function useChat({ orgSlug, apiUrl }: UseChatOptions) {
   const resumeChat = useCallback(
     (loc: string | null) => {
       setLocationSlug(loc);
-      ws.connect();
+      ws.connect(loc);
     },
     [ws],
   );
