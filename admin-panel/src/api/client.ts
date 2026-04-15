@@ -118,6 +118,11 @@ export const api = {
     request(`/admin/organizations/${orgId}/knowledge-base/${fileId}`, {
       method: 'DELETE',
     }),
+  crawlKb: (orgId: string) =>
+    request<{ uploaded_file_ids: string[]; count: number }>(
+      `/admin/organizations/${orgId}/knowledge-base/crawl`,
+      { method: 'POST' },
+    ),
 
   // Prompts
   getPrompt: (orgId: string, path: string) =>

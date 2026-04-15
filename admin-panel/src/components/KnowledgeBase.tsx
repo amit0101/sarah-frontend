@@ -1,7 +1,7 @@
 /** Knowledge base — upload, list, delete files for the organization. */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { api, KbFile } from '../api/client';
-import { IconFile, IconUpload, IconTrash } from './Icons';
+import { IconFile, IconUpload, IconTrash, IconRefresh } from './Icons';
 
 interface Props {
   orgId: string;
@@ -12,6 +12,7 @@ export function KnowledgeBase({ orgId }: Props) {
   const [vectorStoreId, setVectorStoreId] = useState<string | null>(null);
   const [msg, setMsg] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [crawling, setCrawling] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const loadFiles = useCallback(() => {
@@ -115,6 +116,31 @@ export function KnowledgeBase({ orgId }: Props) {
         Accepts .txt, .md, .pdf, .docx, .csv — select multiple files at once.
         A Vector Store will be auto-created on first upload.
       </p>
+
+      <h3 className="sa-sub-heading">Crawl Website</h3>
+      <p className="sa-muted" style={{ fontSize: 12 }}>
+        Automatically crawl your public website and import page content into the knowledge base.
+      </p>
+      <button
+        className="sa-btn sa-btn-primary"
+        onClick={async () => {
+          if (!confirm('Crawl the public website and add all pages to the knowledge base?')) return;
+          setCrawling(true);
+          try {
+            const res = await api.crawlKb(orgId);
+            setMsg(`Crawl complete — ${res.count} pages imported.`);
+            loadFiles();
+          } catch (e) {
+            setMsg(`Crawl error: ${e}`);
+          } finally {
+            setCrawling(false);
+          }
+        }}
+        disabled={crawling}
+        style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+      >
+        <IconRefresh /> {crawling ? 'Crawling…' : 'Crawl Website'}
+      </button>
     </div>
   );
 }
