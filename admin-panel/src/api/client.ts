@@ -98,13 +98,13 @@ export const api = {
       body: JSON.stringify({ escalation_contacts: contacts }),
     }),
 
-  // Knowledge Base
-  listKbFiles: (orgId: string, slug: string) =>
-    request<{ files: KbFile[]; vector_store_id: string }>(
-      `/admin/organizations/${orgId}/locations/${slug}/knowledge-base`,
+  // Knowledge Base (org-level)
+  listKbFiles: (orgId: string) =>
+    request<{ files: KbFile[]; vector_store_id: string | null }>(
+      `/admin/organizations/${orgId}/knowledge-base`,
     ),
-  uploadKbFile: async (orgId: string, slug: string, file: File) => {
-    const url = `${getApiUrl()}/admin/organizations/${orgId}/locations/${slug}/knowledge-base`;
+  uploadKbFile: async (orgId: string, file: File) => {
+    const url = `${getApiUrl()}/admin/organizations/${orgId}/knowledge-base`;
     const form = new FormData();
     form.append('file', file);
     const headers: Record<string, string> = {};
@@ -114,8 +114,8 @@ export const api = {
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   },
-  deleteKbFile: (orgId: string, slug: string, fileId: string) =>
-    request(`/admin/organizations/${orgId}/locations/${slug}/knowledge-base/${fileId}`, {
+  deleteKbFile: (orgId: string, fileId: string) =>
+    request(`/admin/organizations/${orgId}/knowledge-base/${fileId}`, {
       method: 'DELETE',
     }),
 
@@ -143,6 +143,7 @@ export type OrgSummary = {
 
 export type OrgDetail = OrgSummary & {
   ghl_location_id?: string;
+  vector_store_id?: string | null;
   has_ghl_api_key?: boolean;
 };
 
