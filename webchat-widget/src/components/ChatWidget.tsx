@@ -6,19 +6,18 @@ import { LocationSelector } from './LocationSelector';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 
-/** M&H locations — hardcoded for embed, could be loaded from API. */
+/** M&H chapel locations — must match sarah.locations table slugs. */
 const LOCATIONS = [
-  { id: 'main_office', name: 'Main Office' },
-  { id: 'bowness', name: 'Bowness' },
-  { id: 'crowfoot', name: 'Crowfoot' },
-  { id: 'fish_creek', name: 'Fish Creek' },
-  { id: 'parkland', name: 'Parkland' },
-  { id: 'queens_park', name: "Queen's Park" },
-  { id: 'riverview', name: 'Riverview' },
-  { id: 'south_calgary', name: 'South Calgary' },
-  { id: 'thornhill', name: 'Thornhill' },
-  { id: 'acadia', name: 'Acadia' },
-  { id: 'cedar', name: 'Cedar' },
+  { id: 'park_memorial', name: 'Park Memorial Chapel' },
+  { id: 'eastside', name: 'Eastside Memorial Chapel' },
+  { id: 'fish_creek', name: 'Fish Creek Chapel' },
+  { id: 'deerfoot_south', name: 'Deerfoot South' },
+  { id: 'chapel_of_the_bells', name: 'Chapel Of The Bells' },
+  { id: 'calgary_crematorium', name: 'Calgary Crematorium' },
+  { id: 'heritage', name: 'Heritage Funeral Services' },
+  { id: 'crowfoot', name: 'Crowfoot Chapel' },
+  { id: 'airdrie', name: 'Airdrie Funeral Home' },
+  { id: 'cochrane', name: 'Cochrane Funeral Home' },
 ];
 
 interface ChatWidgetProps {
