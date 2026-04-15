@@ -262,6 +262,35 @@
   text-align: right;
 }
 
+/* ================== Markdown inside bubbles ================== */
+.sarah-md p { margin: 0 0 6px; }
+.sarah-md p:last-child { margin-bottom: 0; }
+.sarah-md br { display: block; content: ''; margin-top: 4px; }
+.sarah-md h3, .sarah-md h4, .sarah-md h5, .sarah-md h6 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+.sarah-md h3 { font-size: 14px; }
+.sarah-md ul {
+  margin: 4px 0 6px;
+  padding-left: 18px;
+}
+.sarah-md li { margin-bottom: 2px; }
+.sarah-md strong { font-weight: 600; }
+.sarah-md code {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+.sarah-md a {
+  color: var(--sw-primary);
+  text-decoration: underline;
+  word-break: break-all;
+}
+.sarah-md a:hover { opacity: 0.8; }
+
 /* ================== Typing Indicator ================== */
 .sarah-typing {
   display: flex;
