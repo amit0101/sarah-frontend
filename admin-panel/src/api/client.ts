@@ -150,7 +150,6 @@ export type OrgDetail = OrgSummary & {
 export type LocSummary = {
   id: string;
   name: string;
-  vector_store_id?: string | null;
 };
 
 export type EscalationContact = {
