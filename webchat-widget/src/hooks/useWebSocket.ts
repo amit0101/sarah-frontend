@@ -60,17 +60,17 @@ export function useWebSocket({
     return `${proto}//${host}/ws/chat/${orgSlug}/${loc}`;
   }, [orgSlug, locationSlug, apiUrl]);
 
-  const connect = useCallback((locOverride?: string | null) => {
+  const connect = useCallback((locOverride?: string | null, resumeId?: string | null) => {
     wsRef.current?.close();
     updateStatus('connecting');
     const ws = new WebSocket(buildUrl(locOverride));
     wsRef.current = ws;
 
+    const convId = resumeId !== undefined ? resumeId : resumeConversationId;
     ws.onopen = () => {
       attemptsRef.current = 0;
-      // Send the first frame — resume or empty to create new conv
-      if (resumeConversationId) {
-        ws.send(JSON.stringify({ resume_conversation_id: resumeConversationId }));
+      if (convId) {
+        ws.send(JSON.stringify({ resume_conversation_id: convId }));
       } else {
         ws.send(JSON.stringify({ text: '' }));
       }

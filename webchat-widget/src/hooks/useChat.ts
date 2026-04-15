@@ -92,7 +92,7 @@ export function useChat({ orgSlug, apiUrl }: UseChatOptions) {
       setTyping(false);
       try { sessionStorage.removeItem(SESSION_KEY); } catch { /* noop */ }
       setConversationId(null);
-      setTimeout(() => ws.connect(loc), 0);
+      setTimeout(() => ws.connect(loc, null), 0);
     },
     [ws],
   );
@@ -100,7 +100,8 @@ export function useChat({ orgSlug, apiUrl }: UseChatOptions) {
   const resumeChat = useCallback(
     (loc: string | null) => {
       setLocationSlug(loc);
-      ws.connect(loc);
+      const cid = loadSession();
+      ws.connect(loc, cid);
     },
     [ws],
   );
