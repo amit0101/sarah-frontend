@@ -99,10 +99,27 @@
   justify-content: space-between;
   flex-shrink: 0;
 }
+.sarah-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.sarah-header-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(245, 242, 235, 0.35);
+  background: rgba(245, 242, 235, 0.08);
+  flex-shrink: 0;
+  user-select: none;
+}
 .sarah-header-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 .sarah-header-brand {
   font-size: 14px;
