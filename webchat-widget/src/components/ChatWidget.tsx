@@ -11,12 +11,16 @@ interface ChatWidgetProps {
   apiUrl?: string;
 }
 
+const TEASER_DISMISSED_KEY = 'sarah_teaser_dismissed';
+
 export function ChatWidget({
   orgSlug = 'mhc',
   apiUrl = '',
 }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
-  const [teaserDismissed, setTeaserDismissed] = useState(false);
+  const [teaserDismissed, setTeaserDismissed] = useState<boolean>(() => {
+    try { return sessionStorage.getItem(TEASER_DISMISSED_KEY) === '1'; } catch { return false; }
+  });
 
   const chat = useChat({ orgSlug, apiUrl });
 
@@ -29,11 +33,14 @@ export function ChatWidget({
     if (chat.wsStatus === 'disconnected') {
       chat.startChat(null);
     }
+    // Note: opening the chat does NOT dismiss the teaser — only the explicit × does.
+    // That way the bubble re-appears once the user closes the chat.
   };
 
   const handleDismissTeaser = (e: React.MouseEvent) => {
     e.stopPropagation();
     setTeaserDismissed(true);
+    try { sessionStorage.setItem(TEASER_DISMISSED_KEY, '1'); } catch { /* noop */ }
   };
 
   return (
