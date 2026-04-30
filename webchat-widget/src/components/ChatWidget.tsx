@@ -11,16 +11,12 @@ interface ChatWidgetProps {
   apiUrl?: string;
 }
 
-const TEASER_DISMISSED_KEY = 'sarah_teaser_dismissed';
-
 export function ChatWidget({
   orgSlug = 'mhc',
   apiUrl = '',
 }: ChatWidgetProps) {
   const [open, setOpen] = useState(false);
-  const [teaserDismissed, setTeaserDismissed] = useState<boolean>(() => {
-    try { return sessionStorage.getItem(TEASER_DISMISSED_KEY) === '1'; } catch { return false; }
-  });
+  const [teaserDismissed, setTeaserDismissed] = useState(false);
 
   const chat = useChat({ orgSlug, apiUrl });
 
@@ -30,8 +26,6 @@ export function ChatWidget({
 
   const handleOpen = () => {
     setOpen(true);
-    setTeaserDismissed(true);
-    try { sessionStorage.setItem(TEASER_DISMISSED_KEY, '1'); } catch { /* noop */ }
     if (chat.wsStatus === 'disconnected') {
       chat.startChat(null);
     }
@@ -40,7 +34,6 @@ export function ChatWidget({
   const handleDismissTeaser = (e: React.MouseEvent) => {
     e.stopPropagation();
     setTeaserDismissed(true);
-    try { sessionStorage.setItem(TEASER_DISMISSED_KEY, '1'); } catch { /* noop */ }
   };
 
   return (
