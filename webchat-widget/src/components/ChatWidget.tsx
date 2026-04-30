@@ -59,7 +59,7 @@ export function ChatWidget({
             draggable={false}
           />
           <span className="sarah-teaser-text">
-            Hi there, have a question? Text us here.
+            Hi there, have a question? Message us here!
           </span>
           <span
             className="sarah-teaser-close"
@@ -80,7 +80,6 @@ export function ChatWidget({
               fill="currentColor"
             />
           </svg>
-          <span className="sarah-launcher-label">Text us</span>
         </button>
       )}
 
