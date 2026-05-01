@@ -25,6 +25,7 @@ export default defineConfig({
       // Bundle everything — no externals for a self-contained embed
     },
     cssCodeSplit: false, // Inline CSS into the JS bundle
+    assetsInlineLimit: 25000, // Inline images ≤25KB as base64 (sarah-icon is ~18KB)
     outDir: "dist",
   },
 });

@@ -5,6 +5,7 @@ import { useChat } from '../hooks/useChat';
 import { WidgetHeader } from './WidgetHeader';
 import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
+import sarahIcon from '../assets/sarah-icon.jpg';
 
 interface ChatWidgetProps {
   orgSlug?: string;
@@ -54,7 +55,7 @@ export function ChatWidget({
         >
           <img
             className="sarah-teaser-avatar"
-            src="/sarah-icon.jpg"
+            src={sarahIcon}
             alt="Sarah"
             draggable={false}
           />

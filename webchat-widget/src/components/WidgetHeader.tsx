@@ -1,5 +1,6 @@
 /** Widget header — brand, status, close button. */
 import { WsStatus } from '../hooks/useWebSocket';
+import sarahIcon from '../assets/sarah-icon.jpg';
 
 interface Props {
   status: WsStatus;
@@ -14,7 +15,7 @@ export function WidgetHeader({ status, locationName, onClose }: Props) {
     <div className="sarah-header">
       <div className="sarah-header-left">
         <img
-          src="/sarah-icon.jpg"
+          src={sarahIcon}
           alt=""
           className="sarah-header-avatar"
           draggable={false}
